@@ -1,6 +1,7 @@
 import Axios from "axios";
 import { useState } from "react";
 import DrinksCarrousel from "./components/carrousel";
+import "./styles/App.css";
 
 function App() {
   const [drinkName, setDrinkName] = useState("")
@@ -58,29 +59,12 @@ function App() {
         <span className="container-searchbar--filter-icon"></span>
       </div>
 
-      {drink.name !== "" 
-      ? <div className="drink">
-        <span>Drink: {drink.name} </span>
-        <img src={drink.img} width="500" />
-      </div>
-      : <span>No se encontro esa bebida</span>
-      }
-
       <button onClick={getRandomDrinks}>Random drinks</button>
 
-      <drinks-carrousel drinks={randomDrinks}></drinks-carrousel>
-      {/* <ul>
-        {
-          randomDrinks.map(drink => {
-            return(
-              <li key={idDrink}>
-                <p>{drink.name}</p>
-                <img src={drink.img} />
-              </li>
-            )})
-        }
-      </ul> */}
-      <button onClick={() => console.log(randomDrinks)}>adsfasdf</button>
+      {randomDrinks.length !== 0
+      ? <DrinksCarrousel drinks={randomDrinks}></DrinksCarrousel>
+      : ''
+      }
     </div>
   );
 }
