@@ -14,15 +14,25 @@
   box-sizing: border-box;
 }
 
+html{
+  height: 100%;
+}
+
 body{
   background-color: #707489;
   margin-block:15px;
+  height: 90%;
+}
+
+#root{
+  height: 100%;
 }
 
 .App{
   display: flex;
   flex-direction: column;
   align-items: center;
+  height: 100%;
 }
 
 .container-searchbar{
@@ -67,15 +77,25 @@ body{
 }
 
 .drinks{
-  width: 90%;
   list-style: none;
+  height: 80%;
+  width: 90%;
+  display: flex;
+  overflow: auto;
+  justify-content: flex-start;
+  scroll-snap-type: x mandatory;
+  flex-flow: row nowrap;
 }
 
 .drinks--drink-card{
+  flex-shrink: 0;
   box-shadow: 0px 0px 7px 1px rgba(0, 0, 0, 0.25);
-  height: 700px;
+  margin-inline-end: 30px;
+  height: 100%;
+  width: 100%;
   border-radius: 15px;
   position: relative;
+  scroll-snap-align: center;
 }
 
 .drinks--drink-card--title-container{
