@@ -1,21 +1,26 @@
 import Axios from "axios";
 import { useEffect, useState } from "react";
-import DrinksCarrousel from "./components/carrousel";
+import RandomDrink from "./components/random-drink"
 import "./styles/App.css";
+
+const DRINK_INITIALIZE = {
+  id:0,
+  name:"",
+  img:""
+}
 
 function App() {
   const [drinkName, setDrinkName] = useState("")
-  const [randomDrinks, setRandomDrinks] = useState([])
-  const [drink, setDrink] = useState({
-    name:"",
-    img:""
-  })
+  const [randomDrink, setRandomDrink] = useState(DRINK_INITIALIZE)
+  const [drink, setDrink] = useState(DRINK_INITIALIZE)
+  const [loading, setLoading] = useState(false)
   
   useEffect(() => {
-    if(randomDrinks.length === 0) getRandomDrinks()
+    if(randomDrink.id === 0) getRandomDrink()
   })
 
-  function getRandomDrinks(){
+  function getRandomDrink(){
+    setLoading(true) 
     Axios({
       method:"get",
       url:`https://www.thecocktaildb.com/api/json/v1/1/random.php`
@@ -26,7 +31,8 @@ function App() {
         name:data.drinks[0].strDrink,
         img:data.drinks[0].strDrinkThumb
       }
-      setRandomDrinks([...randomDrinks, newDrink])
+      setLoading(false)
+      setRandomDrink(newDrink)
     })
   }
 
@@ -64,12 +70,12 @@ function App() {
       </div>
 
     
-      {randomDrinks.length !== 0
-      ? <DrinksCarrousel drinks={randomDrinks}></DrinksCarrousel>
+      {randomDrink.length !== 0
+      ? <RandomDrink drink={randomDrink} isLoading={loading}></RandomDrink>
       : ''
       }
 
-      <button className="random-btn" onClick={getRandomDrinks}>Random drinks</button>
+      <button className="random-btn" onClick={getRandomDrink}>Random drinks</button>
     </div>
   );
 }
