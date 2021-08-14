@@ -1,5 +1,5 @@
 import Axios from "axios";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import DrinksCarrousel from "./components/carrousel";
 import "./styles/App.css";
 
@@ -9,6 +9,10 @@ function App() {
   const [drink, setDrink] = useState({
     name:"",
     img:""
+  })
+  
+  useEffect(() => {
+    if(randomDrinks.length === 0) getRandomDrinks()
   })
 
   function getRandomDrinks(){
@@ -59,12 +63,13 @@ function App() {
         <span className="container-searchbar--filter-icon"></span>
       </div>
 
-      <button onClick={getRandomDrinks}>Random drinks</button>
-
+    
       {randomDrinks.length !== 0
       ? <DrinksCarrousel drinks={randomDrinks}></DrinksCarrousel>
       : ''
       }
+
+      <button className="random-btn" onClick={getRandomDrinks}>Random drinks</button>
     </div>
   );
 }
