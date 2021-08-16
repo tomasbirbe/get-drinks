@@ -9,14 +9,19 @@ const DRINK_INITIALIZE = {
   img:""
 }
 
+let isFirstRender = true
+
 function App() {
   const [drinkName, setDrinkName] = useState("")
   const [randomDrink, setRandomDrink] = useState(DRINK_INITIALIZE)
-  const [drink, setDrink] = useState(DRINK_INITIALIZE)
+  const [drinks, setDrinks] = useState([])
   const [loading, setLoading] = useState(false)
   
   useEffect(() => {
-    if(randomDrink.id === 0) getRandomDrink()
+    if(isFirstRender === true){
+      isFirstRender = false
+      getRandomDrink()
+    } 
   })
 
   function getRandomDrink(){
@@ -43,17 +48,11 @@ function App() {
         url:`https://www.thecocktaildb.com/api/json/v1/1/search.php?s=${drinkName}`
       })
       .then( ({data}) => {
-        console.log(data)
         if(data.drinks !== null){
-          setDrink({
-            name:data.drinks[0].strDrink,
-            img:data.drinks[0].strDrinkThumb,
-          })
+          console.log(data.drinks)
+          setDrinks([...data.drinks])
         } else {
-          setDrink({
-            name:"",
-            url:""
-          })
+          setDrinks(DRINK_INITIALIZE)
         }
       })
     } else {  
@@ -63,13 +62,21 @@ function App() {
 
   return (
     <div className="App">
-      <div className="container-searchbar">
-        <span className="container-searchbar--search-icon"></span>
-        <input type="text" onKeyPress={getDrink} className="container-searchbar--searchbar"/>
-        <span className="container-searchbar--filter-icon"></span>
+      <div className="searchbar">
+        <div className="searchbar--container-searchbar">
+          <span className="searchbar--container-searchbar--search-icon"></span>
+          <input type="text" onKeyPress={getDrink} className="searchbar--container-searchbar--input"/>
+          <span className="searchbar--container-searchbar--filter-icon"></span>
+        </div>
+        <div className="searchbar--container-results">
+          <ul className="searchbar--container-results--results">
+            {
+              drinks.map((element,index) => <li key={index} className="searchbar--container-results--results-item">{element.strDrink}</li>)
+            }
+          </ul>
+        </div>
       </div>
 
-    
       {randomDrink.length !== 0
       ? <RandomDrink drink={randomDrink} isLoading={loading}></RandomDrink>
       : ''

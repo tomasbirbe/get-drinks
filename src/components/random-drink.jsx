@@ -1,13 +1,15 @@
 const randomDrink = ({drink, isLoading}) => {
   return(
     <div className="drink-card">
-      <div className="drink-card--title-container">
-        <p className="drink-card--title-container--title">{drink.name}</p>
-      </div>
       {
-        isLoading ? 
+        isLoading ?
         <span className="loader"></span>
-        : <img className="drink-card--img" src={drink.img} loading="lazy" />
+        : <div className="drink-card-content">
+            <div className="drink-card--drink-card-content--title-container">
+              <p className="drink-card--drink-card-content--title-container--title">{drink.name}</p>
+            </div>
+            <img className="drink-card--drink-card-content--drink-img" src={drink.img} loading="lazy" />
+        </div>
       }
     </div>
   )
