@@ -42,21 +42,24 @@ function App() {
   }
 
   function getDrink(event){
-    if(event.key === "Enter"){
+    if(event.key === "Enter" && event.target.value !== ''){
       Axios({
         method:"get",
         url:`https://www.thecocktaildb.com/api/json/v1/1/search.php?s=${drinkName}`
       })
       .then( ({data}) => {
+        setDrinks([])
         if(data.drinks !== null){
           console.log(data.drinks)
           setDrinks([...data.drinks])
         } else {
-          setDrinks(DRINK_INITIALIZE)
+          setDrinks([])
         }
       })
-    } else {  
-      setDrinkName(event.target.value)
+    } else if(event.target.value === ''){  
+      setDrinks([])
+    } else {
+      setDrinkName(event.target.value.trim())
     }
   }
 
@@ -68,13 +71,17 @@ function App() {
           <input type="text" onKeyPress={getDrink} className="searchbar--container-searchbar--input"/>
           <span className="searchbar--container-searchbar--filter-icon"></span>
         </div>
-        <div className="searchbar--container-results">
-          <ul className="searchbar--container-results--results">
-            {
-              drinks.map((element,index) => <li key={index} className="searchbar--container-results--results-item">{element.strDrink}</li>)
-            }
-          </ul>
-        </div>
+        {
+          drinks.length !== 0 ?
+          <div className="searchbar--container-results">
+            <ul className="searchbar--container-results--results">
+              {
+                drinks.map((element,index) => <li key={index} className="searchbar--container-results--results--item">{element.strDrink}</li>)
+              }
+            </ul>
+          </div>
+          : ''
+        }
       </div>
 
       {randomDrink.length !== 0
