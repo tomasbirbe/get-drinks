@@ -219,3 +219,8 @@ body{
     transform: rotate(1800deg);
   }
 }
+
+button{
+  background: transparent;
+  border: none;
+}
