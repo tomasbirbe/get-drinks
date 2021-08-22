@@ -2,7 +2,7 @@ import Axios from "axios";
 import { useEffect, useState } from "react";
 import RandomDrink from "../../components/random-drink"
 import "../../styles/App.css";
-import { BrowserRouter as Router, Link, history } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 
 const DRINK_INITIALIZE = {
   id:0,
@@ -12,11 +12,12 @@ const DRINK_INITIALIZE = {
 
 let isFirstRender = true
 
-export default function Home({setterDrink}) {
+export default function Home() {
   const [drinkName, setDrinkName] = useState("")
   const [randomDrink, setRandomDrink] = useState(DRINK_INITIALIZE)
   const [drinks, setDrinks] = useState([])
   const [loading, setLoading] = useState(false)
+  const history = useHistory()
   
   useEffect(() => {
     if(isFirstRender === true){
@@ -68,10 +69,9 @@ export default function Home({setterDrink}) {
     event.preventDefault();
   }
 
-  const showDrink = (history) => {
+  const showDrink = (drink) => {
     return function(){
-      console.log("hola")
-      setterDrink(drink)
+      history.push(`/${drink.idDrink}`)
     }
   }
 
@@ -92,7 +92,8 @@ export default function Home({setterDrink}) {
                   return (
                     <button key={index} onClick={showDrink(element)}>
                       <li className="searchbar--container-results--results--item">
-                        <Link to={`/${element.idDrink}`}>{element.strDrink}</Link>
+                        {element.strDrink}
+                        {/* <Link to={`/${element.idDrink}`}>{element.strDrink}</Link> */}
                       </li>
                     </button>
                   )

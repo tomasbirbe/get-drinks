@@ -1,14 +1,32 @@
-import { useEffect } from "react";
+import '../../styles/drink.css'
+import { useEffect, useState } from "react";
+import Axios from 'axios'
 
-function Drink({drink}) {
+import {useParams} from 'react-router-dom'
+
+
+
+function Drink() {
+  const [drink, setDrink] = useState({})
+  const {idDrink} = useParams()
+
   useEffect(() => {
-    console.log(drink)
+    console.log(drink.idDrink)
+    if(drink.idDrink === undefined){
+          Axios({
+            method:"get",
+            url:`https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=${idDrink}`
+          })
+          .then(({data}) => {
+            setDrink(data.drinks[0])
+          })
+        } 
   })
 
   return(
     <div className="container">
-      <header className="drink-photo">
-        <img src="" alt="drink-photo" />
+      <header className="banner">
+        <img src={drink.strDrinkThumb} className="banner__photo" alt={drink.strDrinkThumb} />
       </header>
       <section className="card">
         <article className="card__stats">
