@@ -1,23 +1,23 @@
 import Axios from 'axios';
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
-import PropTypes from 'prop-types';
+import { useHistory } from 'react-router-dom';
 import RandomDrink from '../../components/random-drink';
 import '../../styles/App.css';
 
 const DRINK_INITIALIZE = {
-  idDrink: '0',
-  strDrink: '',
-  strDrinkThumb: '',
+  id: 0,
+  name: '',
+  img: '',
 };
 
 let isFirstRender = true;
 
-export default function Home({ setterDrink }) {
+export default function Home() {
   const [drinkName, setDrinkName] = useState('');
   const [randomDrink, setRandomDrink] = useState(DRINK_INITIALIZE);
   const [drinks, setDrinks] = useState([]);
   const [loading, setLoading] = useState(false);
+  const history = useHistory();
 
   function getRandomDrink() {
     setLoading(true);
@@ -27,14 +27,21 @@ export default function Home({ setterDrink }) {
     })
       .then(({ data }) => {
         const newDrink = {
-          idDrink: data.drinks[0].idDrink,
-          strDrink: data.drinks[0].strDrink,
-          strDrinkThumb: data.drinks[0].strDrinkThumb,
+          id: data.drinks[0].idDrink,
+          name: data.drinks[0].strDrink,
+          img: data.drinks[0].strDrinkThumb,
         };
         setLoading(false);
         setRandomDrink(newDrink);
       });
   }
+
+  useEffect(() => {
+    if (isFirstRender === true) {
+      isFirstRender = false;
+      getRandomDrink();
+    }
+  });
 
   const handleChange = (event) => {
     event.preventDefault();
@@ -50,7 +57,6 @@ export default function Home({ setterDrink }) {
         .then(({ data }) => {
           setDrinks([]);
           if (data.drinks !== null) {
-            // console.log(data.drinks);
             setDrinks([...data.drinks]);
           } else {
             setDrinks([]);
@@ -62,16 +68,8 @@ export default function Home({ setterDrink }) {
     event.preventDefault();
   };
 
-  useEffect(() => {
-    if (isFirstRender === true) {
-      isFirstRender = false;
-      getRandomDrink();
-    }
-  });
-
   const showDrink = (drink) => () => {
-    // console.log('hola');
-    setterDrink(drink);
+    history.push(`/${drink.idDrink}`);
   };
 
   return (
@@ -88,10 +86,11 @@ export default function Home({ setterDrink }) {
               <div className="searchbar--container-results">
                 <ul className="searchbar--container-results--results">
                   {
-                drinks.map((drink) => (
-                  <button type="button" key={drink.idDrink} onClick={showDrink(drink)}>
+                drinks.map((element) => (
+                  <button type="button" key={element.idDrink} onClick={showDrink(element)}>
                     <li className="searchbar--container-results--results--item">
-                      <Link to={`/${drink.idDrink}`}>{drink.strDrink}</Link>
+                      {element.strDrink}
+                      {/* <Link to={`/${element.idDrink}`}>{element.strDrink}</Link> */}
                     </li>
                   </button>
                 ))
@@ -111,7 +110,3 @@ export default function Home({ setterDrink }) {
     </div>
   );
 }
-
-Home.propTypes = {
-  setterDrink: PropTypes.func.isRequired,
-};

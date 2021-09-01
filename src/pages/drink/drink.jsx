@@ -1,11 +1,29 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import '../../styles/drink.css';
+import React, { useEffect, useState } from 'react';
+import Axios from 'axios';
 
-function Drink({ drink }) {
+import { useParams } from 'react-router-dom';
+
+function Drink() {
+  const [drink, setDrink] = useState({});
+  const { idDrink } = useParams();
+
+  useEffect(() => {
+    if (drink.idDrink === undefined) {
+      Axios({
+        method: 'get',
+        url: `https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=${idDrink}`,
+      })
+        .then(({ data }) => {
+          setDrink(data.drinks[0]);
+        });
+    }
+  });
+
   return (
     <div className="container">
-      <header className="drink-photo">
-        <img src="" alt={`${drink.idDrink}`} />
+      <header className="banner">
+        <img src={drink.strDrinkThumb} className="banner__photo" alt={drink.strDrinkThumb} />
       </header>
       <section className="card">
         <article className="card__stats">
@@ -31,11 +49,4 @@ function Drink({ drink }) {
   );
 }
 
-Drink.propTypes = {
-  drink: PropTypes.shape({
-    idDrink: PropTypes.string,
-    strDrink: PropTypes.string,
-    strDrinkThumb: PropTypes.string,
-  }).isRequired,
-};
 export default Drink;
