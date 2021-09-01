@@ -5,9 +5,9 @@ import RandomDrink from '../../components/random-drink';
 import '../../styles/App.css';
 
 const DRINK_INITIALIZE = {
-  id: 0,
-  name: '',
-  img: '',
+  idDrink: '0',
+  strDrink: '',
+  strDrinkThumb: '',
 };
 
 let isFirstRender = true;
@@ -27,9 +27,9 @@ export default function Home() {
     })
       .then(({ data }) => {
         const newDrink = {
-          id: data.drinks[0].idDrink,
-          name: data.drinks[0].strDrink,
-          img: data.drinks[0].strDrinkThumb,
+          idDrink: data.drinks[0].idDrink,
+          strDrink: data.drinks[0].strDrink,
+          strDrinkThumb: data.drinks[0].strDrinkThumb,
         };
         setLoading(false);
         setRandomDrink(newDrink);
@@ -86,11 +86,11 @@ export default function Home() {
               <div className="searchbar--container-results">
                 <ul className="searchbar--container-results--results">
                   {
-                drinks.map((element) => (
-                  <button type="button" key={element.idDrink} onClick={showDrink(element)}>
+                drinks.map((drink) => (
+                  <button type="button" key={drink.idDrink} onClick={showDrink(drink)}>
                     <li className="searchbar--container-results--results--item">
-                      {element.strDrink}
-                      {/* <Link to={`/${element.idDrink}`}>{element.strDrink}</Link> */}
+                      {drink.strDrink}
+                      {/* <Link to={`/${drink.idDrink}`}>{drink.strDrink}</Link> */}
                     </li>
                   </button>
                 ))
