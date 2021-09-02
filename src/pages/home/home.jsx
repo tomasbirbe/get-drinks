@@ -10,8 +10,6 @@ const DRINK_INITIALIZE = {
   strDrinkThumb: '',
 };
 
-let isFirstRender = true;
-
 export default function Home() {
   const [drinkName, setDrinkName] = useState('');
   const [randomDrink, setRandomDrink] = useState(DRINK_INITIALIZE);
@@ -37,11 +35,8 @@ export default function Home() {
   }
 
   useEffect(() => {
-    if (isFirstRender === true) {
-      isFirstRender = false;
-      getRandomDrink();
-    }
-  });
+    getRandomDrink();
+  }, []);
 
   const handleChange = (event) => {
     event.preventDefault();

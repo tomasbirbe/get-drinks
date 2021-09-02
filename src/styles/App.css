@@ -143,6 +143,7 @@ body{
 
 .drink-card-content{
   height: 100%;
+  overflow: hidden;
 }
 
 .drink-card--drink-card-content--title-container{

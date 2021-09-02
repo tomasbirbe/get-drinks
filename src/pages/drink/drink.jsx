@@ -33,14 +33,22 @@ function Drink() {
           <span className="tacc" />
         </article>
         <article className="card__ingredients">
-          <span className="ingredient-title">INGREDIENTS</span>
+          <div className="title-container">
+            <span className="title-container__line" />
+            <span className="title-container__title">INGREDIENTS</span>
+            <span className="title-container__line" />
+          </div>
           <ul className="ingredients-list">
             <li className="ingredient-list__item" />
           </ul>
           <span className="line" />
         </article>
         <article className="card__instructions">
-          <span className="instructions-title">INSTRUCTIONS</span>
+          <div className="title-container">
+            <span className="title-container__line" />
+            <span className="title-container__title">INSTRUCTIONS</span>
+            <span className="title-container__line" />
+          </div>
           <p />
           <span className="line" />
         </article>
